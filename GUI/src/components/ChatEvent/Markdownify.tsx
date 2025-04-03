@@ -12,16 +12,20 @@ const LinkPreview: React.FC<{ href: string; children: React.ReactNode }> = ({ hr
   if (basicAuthPattern.test(href)) {
     return null;
   }
-  
+
   return !hasError ? (
     <img
       src={href}
-      alt={typeof children === "string" ? children : "Preview"}
-      style={{ maxWidth: "100%", height: "auto", borderRadius: "20px" }}
+      alt={typeof children === 'string' ? children : 'Preview'}
+      style={{ maxWidth: '100%', height: 'auto', borderRadius: '20px' }}
       onError={() => setHasError(true)}
     />
   ) : (
-    <a href={href} target="_blank" rel="noopener noreferrer">
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       {children}
     </a>
   );
@@ -40,7 +44,11 @@ const Markdownify: React.FC<MarkdownifyProps> = ({ message }) => (
         disableParsingRawHTML: true,
       }}
     >
-      {message?.replace(/&#x([0-9A-Fa-f]+);/g, (_, hex) => { return String.fromCharCode(parseInt(hex, 16)); }) ?? ""}
+      {message
+        ?.replace(/&#x([0-9A-Fa-f]+);/g, (_, hex) => {
+          return String.fromCharCode(parseInt(hex, 16));
+        })
+        .replace(/(?<=\n)\d+\.\s/g, '\n\n$&') ?? ''}
     </Markdown>
   </div>
 );
